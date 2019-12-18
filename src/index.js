@@ -13,17 +13,20 @@ document.addEventListener('DOMContentLoaded', () => {
       a[0].style.display = 'none';
   }
 
-    $.ajax({
-        url: 'https://www.algaecal.com/wp-json/acf/v3/options/options',
-        method: "GET",
-        type: "JSON",
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify(),
-        success: function (data) {
-            console.log(data);
-            var main = data;
-            $('#refundModal .modal-body').html(main);
+
+    // Fetch Data from Data Source and load into Modal
+    var request = new XMLHttpRequest();
+
+      request.open('GET', 'https://www.algaecal.com/wp-json/acf/v3/options/options', true);
+
+      request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+          var resp = request.responseText;
+
+          document.querySelector('#refundModal .modal-body').innerHTML = resp;
         }
-    })
+      };
+
+      request.send();
 
 });
